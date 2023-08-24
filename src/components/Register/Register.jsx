@@ -23,16 +23,15 @@ const Register = () => {
     const { name, email, password, reEnteredPassword } = user;
     if (name && email && password === reEnteredPassword) {
       await axios
-        .post("http://localhost:9000/register", user)
+        .post("https://registration-flow-backend.onrender.com/register", user)
         .then(({ data }) => {
           console.log(data.message);
           alert(data.message);
-          setUser(user);
+          navigate("/login");
         })
         .catch((err) => console.log(err));
-      navigate("/login");
     } else {
-      alert("Something went wrong! Please Try Again");
+      alert("Invalid Data! Please Enter Valid Credential");
     }
   };
   return (

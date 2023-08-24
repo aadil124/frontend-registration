@@ -1,7 +1,85 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  return <div>Register</div>;
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    reEnteredPassword: "",
+  });
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((users) => ({
+      ...users,
+      [name]: value,
+    }));
+  };
+  const handleRegister = async () => {
+    await axios
+      .post("http://localhost:9000/register", user)
+      .then(({ data }) => {
+        console.log(data.message);
+        alert(data.message);
+        setUser(user);
+      })
+      .catch((err) => console.log(err));
+    navigate("/login");
+  };
+  return (
+    <div>
+      <h1>Register</h1>
+      <div className="main">
+        <input
+          type="text"
+          name="name"
+          value={user.name}
+          placeholder="Enter your name"
+          onChange={handleChange}
+        />
+        <br />
+        <br />
+        <input
+          type="email"
+          name="email"
+          value={user.email}
+          placeholder="Enter your email"
+          onChange={handleChange}
+        />
+        <br />
+        <br />
+        <input
+          type="password"
+          name="password"
+          value={user.password}
+          placeholder="Enter your password"
+          onChange={handleChange}
+        />
+        <br />
+        <br />
+        <input
+          type="password"
+          name="reEnteredPassword"
+          value={user.reEnteredPassword}
+          placeholder="Enter your confirm password"
+          onChange={handleChange}
+        />
+        <br />
+        <br />
+      </div>
+      <div>
+        <Button className="m-4" onClick={handleRegister}>
+          Register
+        </Button>
+
+        <Button>Login</Button>
+      </div>
+    </div>
+  );
 };
 
 export default Register;

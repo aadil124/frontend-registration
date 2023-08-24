@@ -16,14 +16,14 @@ const Login = ({ setUserLogin }) => {
   };
   const handleLogin = async () => {
     await axios
-      .post("http://localhost:9000/login", user)
+      .post("https://registration-flow-backend.onrender.com/login", user)
       .then((res) => {
         alert(res.data.message);
         // console.log(res.data.user);
         setUserLogin(res.data.user);
+        navigate("/");
       })
       .catch((err) => console.log(err));
-    navigate("/");
   };
 
   const handleRegister = () => {

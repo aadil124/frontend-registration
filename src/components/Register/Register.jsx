@@ -20,15 +20,20 @@ const Register = () => {
     }));
   };
   const handleRegister = async () => {
-    await axios
-      .post("http://localhost:9000/register", user)
-      .then(({ data }) => {
-        console.log(data.message);
-        alert(data.message);
-        setUser(user);
-      })
-      .catch((err) => console.log(err));
-    navigate("/login");
+    const { name, email, password, reEnteredPassword } = user;
+    if (name && email && password === reEnteredPassword) {
+      await axios
+        .post("http://localhost:9000/register", user)
+        .then(({ data }) => {
+          console.log(data.message);
+          alert(data.message);
+          setUser(user);
+        })
+        .catch((err) => console.log(err));
+      navigate("/login");
+    } else {
+      alert("Something went wrong! Please Try Again");
+    }
   };
   return (
     <div>
@@ -76,7 +81,7 @@ const Register = () => {
           Register
         </Button>
 
-        <Button>Login</Button>
+        <Button onClick={() => navigate("/login")}>Login</Button>
       </div>
     </div>
   );

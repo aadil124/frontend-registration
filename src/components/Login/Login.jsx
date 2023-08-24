@@ -19,7 +19,7 @@ const Login = ({ setUserLogin }) => {
       .post("http://localhost:9000/login", user)
       .then((res) => {
         alert(res.data.message);
-        //   console.log(res.data.user);
+        // console.log(res.data.user);
         setUserLogin(res.data.user);
       })
       .catch((err) => console.log(err));

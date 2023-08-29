@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -22,8 +23,12 @@ const Register = () => {
   const handleRegister = async () => {
     const { name, email, password, reEnteredPassword } = user;
     if (name && email && password === reEnteredPassword) {
+      const hashedPassword = await bcrypt.hash(password, 10); //hash the password
       await axios
-        .post("https://registration-flow-backend.onrender.com/register", user)
+        .post("https://registration-flow-backend.onrender.com/register", {
+          ...user,
+          password: hashedPassword,
+        })
         .then(({ data }) => {
           console.log(data.message);
           alert(data.message);

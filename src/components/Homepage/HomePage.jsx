@@ -29,13 +29,6 @@ const HomePage = () => {
         error pariatur expedita amet harum ad, cumque saepe quas repellendus
         itaque soluta earum nulla tempore impedit ducimus possimus aut maxime.
         Saepe, unde accusamus! Impedit assumenda sequi quidem ratione
-        aspernatur! Eius ex culpa sapiente rem illo ipsam at placeat quae, in
-        eos perspiciatis assumenda maiores architecto, dolores deserunt dolorum.
-        Necessitatibus natus facilis autem nostrum! Saepe eveniet dolor, ullam
-        accusamus nam quas itaque mollitia odio libero dolores consequuntur
-        deleniti, consectetur, eius consequatur aut tenetur iste laudantium
-        ratione ipsum rem minima reprehenderit ducimus animi. Molestiae,
-        inventore?
       </p>
       <Button onClick={() => navigate("/login")}>Logout</Button>
     </div>

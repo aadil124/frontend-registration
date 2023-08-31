@@ -1,30 +1,38 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import HomePage from "./components/Homepage/HomePage";
-import Register from "./components/Register/Register";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Homepage from "./components/Homepage/HomePage";
 import Login from "./components/Login/Login";
-import { Route, Routes } from "react-router-dom";
+import Register from "./components/Register/Register";
+import { useState } from "react";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 const App = () => {
-  const [userLogin, setUserLogin] = useState({
-    email: "",
-    password: "",
-  });
+  const [loginUser, setLoginUser] = useState(localStorage.getItem("jwt-token"));
+  console.log(loginUser);
+
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          userLogin && userLogin._id ? (
-            <HomePage setUserLogin={setUserLogin} />
-          ) : (
-            <Login setUserLogin={setUserLogin} />
-          )
-        }
-      />
-      <Route path="/login" element={<Login setUserLogin={setUserLogin} />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
+    <div className="App">
+      <Router>
+        <Routes>
+          {/* <Route path="/"   element={ loginUser && loginUser._id ? <Homepage setLoginUser={setLoginUser}/>:<Login setLoginUser={setLoginUser}/>}/> */}
+          <Route
+            path="/"
+            element={
+              <Homepage loginUser={loginUser} setLoginUser={setLoginUser} />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Login setLoginUser={setLoginUser} loginUser={loginUser} />
+            }
+          />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword/:token" element={<ResetPassword />} />
+        </Routes>
+      </Router>
+    </div>
   );
 };
 

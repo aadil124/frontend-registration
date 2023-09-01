@@ -1,67 +1,77 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
-const Login = ({ setUserLogin }) => {
+import axios from "axios";
+import { Button } from "react-bootstrap";
+const Login = ({ setLoginUser, loginUser }) => {
+  const navigate = useNavigate();
+  //define state variable with useState hook
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
+  //create handleChange function to update the user state when user take an input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((user) => ({ ...user, [name]: value }));
+    setUser({
+      ...user,
+      [name]: value,
+    });
   };
-  const handleLogin = async () => {
-    await axios
-      .post("https://registration-flow-backend.onrender.com/login", user)
-      .then((res) => {
-        alert(res.data.message);
+
+  //login function when user clicked on button
+  const login = async () => {
+    try {
+      //send a post request to server using user credentials
+      await axios.post("http://localhost:9000/login", user).then((res) => {
+        alert(res.data.message); //getting the data->Login Successful
+        //update the login user state with response data
         // console.log(res.data.user);
-        setUserLogin(res.data.user);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+        if (res.status === 200) {
+          setLoginUser(res.data.token);
+          localStorage.setItem("jwt-token", res.data.token);
+          navigate("/");
+        }
+      });
+    } catch (error) {
+      alert(error);
+    }
   };
-
-  const handleRegister = () => {
-    navigate("/register");
-  };
-
   return (
     <>
-      <div className="Form">
+      <div className="loginContainer">
         <h1>Login</h1>
-        <div className="content">
+        <div className="loginForm">
           <input
             type="email"
+            placeholder="Enter your email"
             name="email"
             value={user.email}
-            placeholder="Enter your email"
             onChange={handleChange}
           />
-          <br />
-          <br />
+
           <input
             type="password"
+            placeholder="Enter your password"
             name="password"
             value={user.password}
-            placeholder="Enter your password"
             onChange={handleChange}
           />
-          <br />
-          <br />
-          <Button className="me-3" onClick={handleLogin}>
+        </div>
+        <div>
+          <Button variant="primary" onClick={login}>
             Login
           </Button>
+          <Button variant="primary" onClick={() => navigate("/register")}>
+            Register
+          </Button>
 
-          <Button onClick={handleRegister}>Registration</Button>
+          <Button variant="primary" onClick={() => navigate("/forgotpassword")}>
+            ForgotPassword
+          </Button>
         </div>
       </div>
     </>
   );
 };
-
 export default Login;

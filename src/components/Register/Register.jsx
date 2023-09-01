@@ -1,93 +1,108 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import bcrypt from "bcryptjs";
-
 const Register = () => {
+  //create a hookd for navigation
+  const navigate = useNavigate();
+
+  //define state variable
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
     reEnteredPassword: "",
   });
-  const navigate = useNavigate();
 
+  //handleChange function to update the user state
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((users) => ({
-      ...users,
+    setUser({
+      ...user,
       [name]: value,
-    }));
+    });
   };
-  const handleRegister = async () => {
+
+  //register function is called when registration button
+
+  const register = async () => {
     const { name, email, password, reEnteredPassword } = user;
-    if (name && email && password === reEnteredPassword) {
-      const hashedPassword = await bcrypt.hash(password, 10); //hash the password
+
+    //make all fields mandatory
+    // if(name&&email&&password&&password===reEnteredPassword){
+    //     const hashedpassword=await bcrypt.hash(password,10);//hash the password
+    //     await axios
+    //     .post("http://localhost:9002/register",{
+    //         ...user,
+    //         password:hashedpassword
+    //     })
+    //     .then((res)=>alert(res.data.message));
+    //     //once registration is done ,we have to navigate to login page
+    //     navigate("/login");
+    // }else{
+    //     alert("Invalid Data.Please enter valid credential")
+    // }
+
+    if (name && email && password && password === reEnteredPassword) {
+      // const hashedpassword=await bcrypt.hash(password,10);//hash the password
       await axios
-        .post("https://registration-flow-backend.onrender.com/register", {
-          ...user,
-          password: hashedPassword,
-        })
-        .then(({ data }) => {
-          console.log(data.message);
-          alert(data.message);
-          navigate("/login");
-        })
-        .catch((err) => console.log(err));
+        .post("http://localhost:9002/register", user)
+        .then((res) => alert(res.data.message));
+      //once registration is done ,we have to navigate to login page
+      navigate("/login");
     } else {
-      alert("Invalid Data! Please Enter Valid Credential");
+      alert("Invalid Data.Please enter valid credential");
     }
   };
-  return (
-    <div>
-      <h1>Register</h1>
-      <div className="main">
-        <input
-          type="text"
-          name="name"
-          value={user.name}
-          placeholder="Enter your name"
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        <input
-          type="email"
-          name="email"
-          value={user.email}
-          placeholder="Enter your email"
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        <input
-          type="password"
-          name="password"
-          value={user.password}
-          placeholder="Enter your password"
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        <input
-          type="password"
-          name="reEnteredPassword"
-          value={user.reEnteredPassword}
-          placeholder="Enter your confirm password"
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-      </div>
-      <div>
-        <Button className="m-4" onClick={handleRegister}>
-          Register
-        </Button>
 
-        <Button onClick={() => navigate("/login")}>Login</Button>
+  return (
+    <>
+      <div className="registerContainer">
+        <h1>Register</h1>
+        <div className="registerForm">
+          {/* input for name,email,password and confirm password  */}
+          <input
+            type="text"
+            placeholder="Enter your name"
+            name="name"
+            value={user.name}
+            onChange={handleChange}
+          />
+
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+          />
+
+          <input
+            type="password"
+            placeholder="Enter your password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            placeholder="Enter your Confirm Password"
+            name="reEnteredPassword"
+            value={user.reEnteredPassword}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <Button variant="primary" onClick={register}>
+            {" "}
+            Register{" "}
+          </Button>
+          <Button variant="primary" onClick={() => navigate("/login")}>
+            Login
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

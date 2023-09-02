@@ -11,28 +11,24 @@ const App = () => {
   console.log(loginUser);
 
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          {/* <Route path="/"   element={ loginUser && loginUser._id ? <Homepage setLoginUser={setLoginUser}/>:<Login setLoginUser={setLoginUser}/>}/> */}
-          <Route
-            path="/"
-            element={
-              <Homepage loginUser={loginUser} setLoginUser={setLoginUser} />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <Login setLoginUser={setLoginUser} loginUser={loginUser} />
-            }
-          />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/resetpassword/:token" element={<ResetPassword />} />
-        </Routes>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        {/* <Route path="/"   element={ loginUser && loginUser._id ? <Homepage setLoginUser={setLoginUser}/>:<Login setLoginUser={setLoginUser}/>}/> */}
+        <Route
+          path="/"
+          element={
+            <Homepage loginUser={loginUser} setLoginUser={setLoginUser} />
+          }
+        />
+        <Route
+          path="/login"
+          element={<Login setLoginUser={setLoginUser} loginUser={loginUser} />}
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/resetpassword/:token" element={<ResetPassword />} />
+      </Routes>
+    </Router>
   );
 };
 

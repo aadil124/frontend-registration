@@ -8,7 +8,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 const App = () => {
   const [loginUser, setLoginUser] = useState(localStorage.getItem("jwt-token"));
-  console.log(loginUser);
+  // console.log(loginUser);
 
   return (
     <Router>
